@@ -11,9 +11,9 @@ import { NgForm } from '@angular/forms';
 })
 export class AppComponent implements OnInit {
   title = 'employee-manager-app';
-  public employees: Employee[]|undefined;
-  public editEmployee: Employee|undefined;
-  public deleteEmployee: Employee|undefined;
+  public employees!: Employee[];
+  public editEmployee!: Employee;
+  public deleteEmployee!: Employee;
 
   constructor(private employeeService: EmployeeService){}
 
@@ -59,15 +59,35 @@ export class AppComponent implements OnInit {
   }
 
   public onDeleteEmployee(id: number|undefined): void {
-    this.employeeService.deleteEmployee(id).subscribe(
-      (response: void) => {
-        console.log(response);
-        this.getEmployees();
-      },
-      (error: HttpErrorResponse) => {
-        alert(error.message);
+    if (id) {
+      this.employeeService.deleteEmployee(id).subscribe(
+        (response: void) => {
+          console.log(response);
+          this.getEmployees();
+        },
+        (error: HttpErrorResponse) => {
+          alert(error.message);
+        }
+      );
+    }
+  }
+
+  public searchEmployees(key: string): void {
+    const results: Employee[] =  [];
+    for (const e of this.employees) {
+      if (e.name.toLowerCase().indexOf(key.toLowerCase()) !== -1
+      ||  e.email.toLowerCase().indexOf(key.toLowerCase()) !== -1
+      ||  e.phone.toLowerCase().indexOf(key.toLowerCase()) !== -1
+      ||  e.jobTitle.toLowerCase().indexOf(key.toLowerCase()) !== -1) {
+        results.push(e);
       }
-    );
+    }
+
+    this.employees = results;
+    // if (results.length === 0 || !key) {
+    if (!key) { //changed to show "no employees" when there is a search key but no results.
+      this.getEmployees();
+    }
   }
 
   public onOpenModal(employee: Employee|undefined, mode: string): void {
@@ -79,13 +99,15 @@ export class AppComponent implements OnInit {
     if (mode === "add") {
       button.setAttribute("data-target", "#addEmployeeModal");
     }
-    else if (mode === "edit") {
-      this.editEmployee = employee;
-      button.setAttribute("data-target", "#updateEmployeeModal");
-    }
-    else if (mode === "delete") {
-      this.deleteEmployee = employee;
-      button.setAttribute("data-target", "#deleteEmployeeModal");
+    if (employee) {
+      if (mode === "edit") {
+        this.editEmployee = employee;
+        button.setAttribute("data-target", "#updateEmployeeModal");
+      }
+      if (mode === "delete") {
+        this.deleteEmployee = employee;
+        button.setAttribute("data-target", "#deleteEmployeeModal");
+      }
     }
 
     container?.appendChild(button);
