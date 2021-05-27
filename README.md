@@ -25,3 +25,12 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+## Acknoledgements
+
+
+* Based on the Spring Boot Full Stack Tutorial by Amigoscode/GetArrays
+    * [YouTube Video](https://www.youtube.com/watch?v=Gx4iBLKLVHk)
+    * [Spring Boot Backend Repo](https://github.com/getarrays/employeemanager)
+    * [Angular Frontend Repo](https://github.com/getarrays/employeemanagerapp)
+      * [Bootdey.com bs4-contact-cards](https://www.bootdey.com/snippets/view/bs4-contact-cards)

@@ -22,7 +22,13 @@ export class EmployeeService {
         return this.http.post<any>(`${this.apiServerUrl}/employee/add`, employee);
     }
 
-    public deleteEmployee(employeeId: number): Observable<void> {
-        return this.http.delete<any>(`${this.apiServerUrl}/employee/delete/${employeeId}`);
+    public updateEmployee(employee: Employee): Observable<Employee> {
+        return this.http.put<any>(`${this.apiServerUrl}/employee/update`, employee);
+    }
+
+    public deleteEmployee(employeeId: number|undefined): Observable<void> {
+        // if (employeeId) {
+            return this.http.delete<any>(`${this.apiServerUrl}/employee/delete/${employeeId}`);
+        // }
     }
 }
